@@ -2,13 +2,15 @@
 PLL and physical RGMII DDR are bypassed; this is not PHY or board validation.
 """
 from pathlib import Path
+import os
+import shutil
 import random
 import struct
 import subprocess
 import zlib
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT.parent / 'bank/eg4d_udp_20261018/sim'
+OUT = ROOT.parent / 'bank/eg4d_udp_20261019/sim'
 OUT.mkdir(parents=True, exist_ok=True)
 HOST_MAC = bytes.fromhex('020000000001')
 BOARD_MAC = bytes.fromhex('020000000002')
@@ -111,8 +113,22 @@ endmodule
 (OUT/'tb.sv').write_text(tb)
 sources = [(ROOT / s).as_posix() for s in (ROOT/'tools/sources.txt').read_text().splitlines()
            if not s.startswith('al_ip/') and not s.endswith('/rgmii_interface.v')]
-commands = [ [r'E:\iverilog\bin\iverilog.exe','-g2012','-s','tb','-o','sim.vvp',str(OUT/'tb.sv')] + sources,
-             [r'E:\iverilog\bin\vvp.exe','sim.vvp'] ]
+# Prefer Icarus; use an installed ModelSim/Questa when Icarus is unavailable.
+iverilog = os.environ.get('IVERILOG') or shutil.which('iverilog')
+vvp = os.environ.get('VVP') or shutil.which('vvp')
+modelsim = Path(os.environ.get('MODELSIM_BIN', r'F:\win64'))
+if iverilog and vvp:
+    commands = [[iverilog, '-g2012', '-s', 'tb', '-o', 'sim.vvp', str(OUT/'tb.sv')] + sources,
+                [vvp, 'sim.vvp']]
+elif (modelsim/'vsim.exe').is_file():
+    commands = []
+    if not (OUT/'work').exists():
+        commands.append([str(modelsim/'vlib.exe'), 'work'])
+    commands += [[str(modelsim/'vlog.exe'), '-sv', '-work', 'work', str(OUT/'tb.sv')] + sources,
+                 [str(modelsim/'vsim.exe'), '-c', '-onfinish', 'exit', 'work.tb',
+                  '-do', 'onerror {quit -code 1}; run -all; quit -f']]
+else:
+    raise SystemExit('Install Icarus (iverilog/vvp on PATH), or set MODELSIM_BIN to a ModelSim bin folder.')
 with (OUT/'run.log').open('w') as log:
     for command in commands:
         result = subprocess.run(command,cwd=OUT,text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=90)

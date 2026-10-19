@@ -1,6 +1,6 @@
 # Standalone build; all generated artifacts stay outside the source project.
 set root [file normalize [file join [file dirname [info script]] ..]]
-set out [file normalize [file join $root .. bank eg4d_udp_20261018 fpga]]
+set out [file normalize [file join $root .. bank eg4d_udp_20261019 fpga]]
 file mkdir $out
 # Preserve a previous image under a different name before a new attempt.
 # A failed build must not leave a stale image at the advertised download path.
@@ -9,11 +9,11 @@ if {[file exists $bitpath]} {
     file rename $bitpath [file join $out eg4d20_udp_loop_previous_[clock seconds].bit]
 }
 cd $root
-open_project D:/2026fpga/EG4D20/EG4D20.al -single_run
+open_project C:/Users/21397/Desktop/EG4D20/EG4D20.al -single_run
 import_device eagle_s20.db -package EG4D20EG176
 elaborate -top udp_transmit_test
-read_adc D:/2026fpga/EG4D20/uisrc/04_pin/fpga_pin.adc
-read_sdc D:/2026fpga/EG4D20/uisrc/04_pin/timing.sdc
+read_adc C:/Users/21397/Desktop/EG4D20/uisrc/04_pin/fpga_pin.adc
+read_sdc C:/Users/21397/Desktop/EG4D20/uisrc/04_pin/timing.sdc
 cd $out
 optimize_rtl
 report_area -file rtl.area

@@ -1,0 +1,1 @@
+PASS asynchronous RX/TX clocks, ARP, odd/even ICMP echo, 9 UDP echoes [1, 17, 18, 32, 255, 512, 1024, 1472, 26], addresses/checksums/FCS, bad-FCS rejection and recovery

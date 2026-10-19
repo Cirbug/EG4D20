@@ -1,0 +1,22 @@
+﻿{
+    "Adapter":  {
+                    "Name":  "以太网",
+                    "InterfaceDescription":  "Realtek Gaming 2.5GbE Family Controller",
+                    "InterfaceIndex":  3,
+                    "MacAddress":  "D8-43-AE-82-74-09"
+                },
+    "IPInterface":  {
+                        "Dhcp":  1
+                    },
+    "Addresses":  [
+                      {
+                          "IPAddress":  "169.254.66.43",
+                          "PrefixLength":  16
+                      }
+                  ],
+    "DNS":  {
+                "ServerAddresses":  [
+
+                                    ]
+            }
+}
