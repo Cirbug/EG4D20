@@ -1,0 +1,10 @@
+*_Runs/
+log/
+.lock.f
+.recent_user_depot.ini
+__pycache__/
+*.pyc
+*.db
+*.bit
+*.log
+*.logw
