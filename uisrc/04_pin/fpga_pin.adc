@@ -16,6 +16,11 @@ set_pin_assignment	{ O_a_rgmii_txd[1] }	{ LOCATION = P81; IOSTANDARD = LVCMOS33;
 set_pin_assignment	{ O_a_rgmii_txd[2] }	{ LOCATION = P82; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; }
 set_pin_assignment	{ O_a_rgmii_txd[3] }	{ LOCATION = P83; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; }
 
+set_pin_assignment	{ O_led[0] }	{ LOCATION = P91;  IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; }
+set_pin_assignment	{ O_led[1] }	{ LOCATION = P104; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; }
+set_pin_assignment	{ O_led[2] }	{ LOCATION = P109; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; }
+set_pin_assignment	{ O_led[3] }	{ LOCATION = P112; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; }
+
 
 
 

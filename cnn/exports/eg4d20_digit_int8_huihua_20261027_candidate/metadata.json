@@ -1,0 +1,41 @@
+{
+  "format": "eg4d20_digit_int8_v1",
+  "architecture": "small_digit_cnn_28x28_v1",
+  "input_size": 28,
+  "classes": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9"
+  ],
+  "weight_count": 3688,
+  "weight_depth": 4096,
+  "weight_order": [
+    "conv1",
+    "conv2",
+    "conv3",
+    "classifier"
+  ],
+  "weight_scales": {
+    "conv1": 0.007628754837306466,
+    "conv2": 0.0066563374414218696,
+    "conv3": 0.0076866614536976255,
+    "classifier": 0.005751329613482859
+  },
+  "activation_shifts": [
+    10,
+    10,
+    9
+  ],
+  "mnist_test_accuracy": 0.9374,
+  "float_quant_disagreement": 0.008999999612569809,
+  "base_checkpoint": "D:\\2026fpga\\EG4D20\\cnn\\checkpoints\\digit_cnn_huihua_adapt_20261027_candidate.pt",
+  "base_camera_eval_accuracy": 0.5,
+  "base_mnist_test_accuracy": null
+}

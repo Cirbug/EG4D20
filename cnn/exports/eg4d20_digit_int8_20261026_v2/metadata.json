@@ -1,0 +1,41 @@
+{
+  "format": "eg4d20_digit_int8_v1",
+  "architecture": "small_digit_cnn_28x28_v1",
+  "input_size": 28,
+  "classes": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9"
+  ],
+  "weight_count": 3688,
+  "weight_depth": 4096,
+  "weight_order": [
+    "conv1",
+    "conv2",
+    "conv3",
+    "classifier"
+  ],
+  "weight_scales": {
+    "conv1": 0.007637526106646681,
+    "conv2": 0.006664422084027388,
+    "conv3": 0.007692706397199255,
+    "classifier": 0.0057457319394809995
+  },
+  "activation_shifts": [
+    10,
+    9,
+    9
+  ],
+  "mnist_test_accuracy": 0.9289,
+  "float_quant_disagreement": 0.011900000274181366,
+  "base_checkpoint": "D:\\2026fpga\\EG4D20\\cnn\\checkpoints\\digit_cnn_camera_adapt_20261026.pt",
+  "base_camera_eval_accuracy": 0.625,
+  "base_mnist_test_accuracy": 0.9345
+}

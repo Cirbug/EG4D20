@@ -2,13 +2,14 @@
 PLL and physical RGMII DDR are bypassed; this is not PHY or board validation.
 """
 from pathlib import Path
+import os
 import random
 import struct
 import subprocess
 import zlib
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT.parent / 'bank/eg4d_udp_20261018/sim'
+OUT = Path(os.environ.get('EG4D20_GMII_OUT', ROOT.parent / 'bank/eg4d_udp_20261018/sim'))
 OUT.mkdir(parents=True, exist_ok=True)
 HOST_MAC = bytes.fromhex('020000000001')
 BOARD_MAC = bytes.fromhex('020000000002')
@@ -63,11 +64,12 @@ reg [7:0] rx_data=0;
 reg [7:0] packet[0:4095];
 integer f, i;
 reg tx_previous=0;
+wire [3:0] led;
 always #4 clk=~clk;
 // Independent RX clock: exercise FIFO CDC, not only identical clock edges.
 always #4.001 rx_clk=~rx_clk;
 udp_transmit_test dut(.I_sys_clk(clk), .I_a_rgmii_rxd(4'b0),
- .I_a_rgmii_rxc(clk), .I_a_rgmii_rx_ctl(1'b0));
+ .I_a_rgmii_rxc(clk), .I_a_rgmii_rx_ctl(1'b0), .O_led(led));
 always @(posedge clk) begin
  #1;
  if(dut.gmii_tvalid) $fwrite(f,"%02x ",dut.gmii_tdata);
@@ -90,13 +92,27 @@ initial begin
  force dut.gmii_rclk=rx_clk;
  force dut.gmii_rvalid=rx_valid;
  force dut.gmii_rdata=rx_data;
+ force dut.phy_link_status=1'b0;
  repeat(50) @(negedge clk); reset=0;
+ repeat(4) @(negedge clk);
+ if(led !== 4'b1111) $fatal(1,"LED reset/off polarity mismatch: %b",led);
+ force dut.phy_link_status=1'b1;
+ repeat(4) @(negedge clk);
+ if(led[3] !== 1'b0) $fatal(1,"D3 did not indicate link up: %b",led);
+ force dut.phy_link_status=1'b0;
+ repeat(4) @(negedge clk);
+ if(led[3] !== 1'b1) $fatal(1,"D3 did not indicate link down: %b",led);
  // The MAC RX reset sequencer holds reset for 128 RX clocks.
  repeat(512) @(negedge clk);
 '''
 for i, packet in enumerate(packets):
     tb += f'$readmemh("in{i}.hex", packet, 0, {len(packet)-1}); send_packet({len(packet)});\n'
-tb += '$fclose(f); $display("SIM_DONE"); $finish; end\nendmodule\n'
+tb += '''if(led[2] !== 1'b0) $fatal(1,"D4 did not show receive activity: %b",led);
+if(led[1] !== 1'b0) $fatal(1,"D5 did not show transmit activity: %b",led);
+if(led[0] !== 1'b0) $fatal(1,"D6 did not latch the injected bad FCS: %b",led);
+$fclose(f); $display("SIM_DONE"); $finish; end
+endmodule
+'''
 tb += '''module pll(input refclk,reset,output extlock,clk0_out,clk1_out,clk2_out);
 assign extlock=~reset; assign clk0_out=refclk; assign clk1_out=refclk; assign clk2_out=refclk;
 endmodule
@@ -144,6 +160,6 @@ for line in (OUT/'tx.hex').read_text().splitlines():
 assert arp_reply, 'No ARP reply'
 assert ping_replies == PING_PAYLOADS, 'ICMP echo payload mismatch'
 assert received == payloads, f'Echo mismatch: expected lengths {lengths}, got {[len(x) for x in received]}'
-result = f'PASS asynchronous RX/TX clocks, ARP, odd/even ICMP echo, {len(received)} UDP echoes {[len(x) for x in received]}, addresses/checksums/FCS, bad-FCS rejection and recovery'
+result = f'PASS asynchronous RX/TX clocks, ARP, odd/even ICMP echo, {len(received)} UDP echoes {[len(x) for x in received]}, addresses/checksums/FCS, bad-FCS rejection/recovery, and D3-D6 link/RX/TX/error indicators'
 (OUT/'result.txt').write_text(result+'\n')
 print(result)

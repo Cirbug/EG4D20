@@ -44,6 +44,7 @@ IP 核配置
     RXC P63；RX_CTL P72；RXD[0..3] P73/P74/P75/P76。
     TXC P77；TX_CTL P78；TXD[0..3] P79/P81/P82/P83。
     实际约束文件：uisrc/04_pin/fpga_pin.adc。
+    D3-D6 为低电平点亮：D3/P112=PHY 链路，D4/P109=接收活动，D5/P104=发送活动，D6/P91=IP/MAC 接收错误（锁存到复位）。
 
 电脑设置与下载后测试
     1. EG4D20 上电，板载 RJ45 用网线接电脑 Realtek 千兆网口。
@@ -82,7 +83,8 @@ IP 核配置
     按当前板级参考约束，布局布线后 Setup WNS +0.127 ns、Hold WNS +0.031 ns，TNS 均为 0。
     已通过：异步 RX/TX 时钟、ARP 应答、奇偶长度 ping、9 个 UDP 包逐字节比对、
     IPv4/ICMP 校验和、发送帧 CRC、错误 CRC 丢弃，以及坏帧后正常包恢复。
-    尚未下载板子或完成电脑实网联通验证；最近电脑 Realtek 仍显示 Disconnected。
+    2026-10-26 旧版 CNN DDR CRC bit 的实板以太网验证：Realtek 链路 1 Gbps，板端 ping 成功；
+    旧版 320x240 UDP 收图、DDR 写入及回读 CRC 另见下方 CNN 图像输入阶段记录；320x180 新版已完成实板验证。
     tests/run_gmii.py 从 Python 独立构造网络包，经实际 MAC/ARP/IP/UDP RTL 仿真。
     PLL、物理 DDR 和 PHY 在该仿真中绕过，所以通过仿真不等于实板联通。
     修正了 MAC TX RAM 元数据直接进入长比较链的问题，增加一拍缓存。
@@ -107,3 +109,57 @@ IP 核配置
 参考资料
     D:\2026fpga\.DOC\01_F01_FC01_EG4D\02_hardware
     D:\2026fpga\.DOC\01_F01_FC01_EG4D\03_demo\3_1_ex_soc_fpga\3_1_01_fpga_udp\01_udp_loop
+
+EG4D20 CNN 图像输入阶段（cnn 分支）
+    独立工程：D:\2026fpga\EG4D20\EG4D20_CNN_INPUT.al，顶层 cnn_image_input_top。
+    当前阶段实现 PC UDP 收图、DDR 单帧写入、逐包 ACK，以及整帧 DDR 回读 CRC 校验；CNN 推理尚未实现。
+    PC 十分类基准位于 cnn：OpenCV 从 320x180 帧中分割单字，统一为 28x28，再用 PyTorch 三层小 CNN 识别 0-9。
+    训练前安装 GPU 版：python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cu130；再安装 python -m pip install numpy opencv-python-headless Pillow。
+    训练命令：python cnn/train_digits.py --epochs 5；默认优先使用 CUDA，打印 PyTorch/CUDA 版本及 GPU 名称；无 GPU 时可换 CPU wheel。使用 torchvision MNIST 并报告独立 MNIST test 准确率。
+    2026-10-26 PC 基准：PyTorch 2.14.1 CPU build，5 epoch，MNIST test accuracy=94.35%。电脑有 RTX 4070 Laptop GPU；这次用 CPU 是因为 CUDA wheel 约 2 GB 且下载极慢，训练脚本在安装 CUDA build 后会自动优先 GPU。
+    OBS 分割检查：python cnn/segment_digits.py xuniji/ph1p35_obs_frame_320x180_gray.png --expect 10；默认 ROI=24,38,296,112，用于排除画面状态叠字。
+    PC 预测：python cnn/predict_digits.py xuniji/ph1p35_obs_frame_320x180_gray.png --expect 10。
+    该 OBS 帧单次输出 0123456784，末位手写 9 误判为 4；仅为一帧冒烟检查，不是摄像头准确率。该帧每个数字只有一个样本，不能当训练集结论；MNIST 准确率也不等于摄像头准确率。
+    PC 模型和脚本不是 FPGA 推理实现；当前 bit 的实板验证范围仍只有 UDP 收图、DDR 写入及回读 CRC。
+    官方板卡手册说明 EG4D20 内置 128 Mbit（16 MiB）、16-bit DDR SDRAM，最高 200 MHz。
+    旧版 320x240 灰度输入为 76,800 bytes，已完成 2026-10-26 实板验证；其测试证据保留在下文。
+    当前改版目标为 320x180（16:9）灰度图，共 57,600 bytes；DDR 回读 CRC 扫描 14,400 个 32-bit word。
+    当前写入缓冲按 32-bit 组字，通过官方 EG4 DDR 控制器写入。
+    本工程使用官方例程中的 ddr1_as_ram / ddr1_wrrd 及 EG_PHY_DDR_8M_16 接法。
+
+    编译工程：D:\2026fpga\EG4D20\tools\build_cnn_input.tcl
+    新版 build log 必须出现 EG4D20_CNN_320X180_BUILD_COMPLETE、时序通过且 bit 时间为本次构建，才可下载。
+    旧版构建日志：D:\2026fpga\bank\eg4d20_cnn_input_20261025\fpga\build_ddr_crc_168.log
+    旧版布线时序：SWNS +0.092 ns，HWNS +0.011 ns，STNS/HTNS 均为 0；LUT 5446/19600，BRAM9K 23/64，DSP 0/29。
+    旧版已烧录并实测 bit：D:\2026fpga\EG4D20\xuniji\eg4d20_cnn_ddr_crc_check.bit（320x240）。
+    新版构建日志：D:\2026fpga\bank\eg4d20_cnn_320x180_20261026\fpga\build_cnn_320x180.log。
+    新版布线时序：Setup WNS +0.100 ns、Hold WNS +0.024 ns，TNS 均为 0；LUT 5443/19600、寄存器 4778/19600、BRAM9K 23/64、DSP 0/29。
+    新版 bit：D:\2026fpga\EG4D20\xuniji\eg4d20_cnn_320x180.bit；SHA-256=D981556CB99E38C12C1588F49230EE0C2964650D6609F42EB7D7AD9A00ABB6CC。
+    已完成离线综合布局布线及新版 320x180 实板 DDR CRC 验证。
+    PC 有线网卡需设 192.168.50.1/24；板端固定 192.168.50.2:6002，PC 绑定 192.168.50.1:6001。
+    PNG/JPEG/BMP 输入由发送工具转灰度、中心裁成 16:9 再缩放至 320x180；1920x1080 输入不会裁掉内容，也不会补黑边。
+    训练使用完全相同的预处理。RAW 输入须已是 320x180 灰度，文件恰好 57,600 bytes；图片输入需安装 Pillow。
+    发送命令：python D:\2026fpga\EG4D20\tools\send_cnn_image.py D:\2026fpga\EG4D20\xuniji\ph1p35_obs_frame_320x180_gray.png
+    每包发出后等待板端 ACK，再发下一包；超时重发当前包，拒收时从帧首重发。
+    40 个包，每包最多 1,456 个像素字节；最后一包 816 bytes。ACK status 0=普通包已写入，1=整帧 DDR 回读 CRC 匹配，2=拒收。
+    最后一包成功后 PC 显示 FRAME VERIFIED；串口 115200 8N1 输出 DDR OK。校验失败时串口输出 DDR ERR，D6 点亮。
+    D3/P112=PHY 链路，D4/P109=UDP RX 活动，D5/P104=TX 活动，D6/P91=接收/DDR 错误；LED 均低电平点亮。
+    旧版先前曾收到 FRAME OK；这只证明 DDR 写事务完成，不证明回读正确。
+    2026-10-26 旧版实测：COM11 收到 DDR OK；测试帧 76,800 bytes，53/53 包 ACK，末包 status=1，PC 显示 FRAME VERIFIED。
+    本次测试使用 frame_id=54572，bit SHA-256=4621EEEBA5287755F48C7AD5BCDB46FF2A654F27D3070C75B5775B603F8AAFCF。
+    2026-10-26 新版实测：frame_id=36605，OBS 图像 57,600 bytes，40/40 包 ACK，末包 status=1；PC 显示 FRAME VERIFIED，COM11 收到 DDR OK。
+    新版 bit SHA-256 与上方记录一致；本次实测只证明图像接收、DDR 写入和回读 CRC，不代表 FPGA 已运行 CNN 分类。
+
+    官方本地 DDR 参考：
+    D:\2026fpga\.DOC\01_F01_FC01_EG4D\03_demo\3_1_ex_soc_fpga\3_1_01_fpga_base\24_inside_sdram_test\fdma_sdram_test
+    重点看 uisrc\01_rtl\eg4d_sram_fdma_test.v 的控制器/DDR PHY连接，以及 uisrc\03_ip\uieg4d_dram 中的官方控制器。
+    官方以太网、图像处理例程分别位于 3_1_ex_soc_fpga\3_1_01_fpga_udp 和 3_2_ex_fpga_image。
+
+    网络 CNN 参考（仅借鉴架构，不能直接生成 EG4D20/TD bit）：
+    https://github.com/m-kvlk/FPGA-8bit-Quantized-CNN-Accelerator：MAX10/DE10-Lite 的 8-bit、FSM 顺序执行、BRAM 权重和 32-bit 累加器示例；可参考低资源复用结构。
+    https://github.com/Xilinx/finn：量化网络的数据流式 FPGA 架构和 examples；工具链主要面向 AMD/Xilinx，不是安路 TD 移植包。
+    https://github.com/fastmachinelearning/hls4ml：含 3-layer CNN 示例和 HLS 后端；可参考定点化/复用策略，不会直接输出本工程可用的 Anlogic RTL。
+    本板仅 29 个 DSP，后续网络要量化并复用少量 MAC；需用训练集定标、Python golden model 与 RTL 位精确结果验证，再判断分类效果。
+
+    PC 协议工具测试：python D:\2026fpga\EG4D20\tests\test_cnn_udp_sender.py
+    RTL 输入/DDR 写调度仿真：python D:\2026fpga\EG4D20\tests\run_cnn_rtl.py

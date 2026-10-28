@@ -1,0 +1,62 @@
+localparam [3:0] CNN_CONV1_SHIFT = 4'd10;
+localparam [3:0] CNN_CONV2_SHIFT = 4'd9;
+localparam [3:0] CNN_CONV3_SHIFT = 4'd9;
+function signed [31:0] cnn_bias;
+    input [1:0] layer;
+    input [4:0] channel;
+    begin
+        case ({layer, channel})
+            7'd0: cnn_bias = 32'sd12528;
+            7'd1: cnn_bias = 32'sd2433;
+            7'd2: cnn_bias = 32'sd2;
+            7'd3: cnn_bias = 32'sd13938;
+            7'd4: cnn_bias = 32'sd10218;
+            7'd5: cnn_bias = 32'sd11435;
+            7'd6: cnn_bias = 32'sd625;
+            7'd7: cnn_bias = 32'sd666;
+            7'd32: cnn_bias = 32'sd-394;
+            7'd33: cnn_bias = 32'sd-380;
+            7'd34: cnn_bias = 32'sd-115;
+            7'd35: cnn_bias = 32'sd216;
+            7'd36: cnn_bias = 32'sd654;
+            7'd37: cnn_bias = 32'sd352;
+            7'd38: cnn_bias = 32'sd520;
+            7'd39: cnn_bias = 32'sd-117;
+            7'd40: cnn_bias = 32'sd318;
+            7'd41: cnn_bias = 32'sd270;
+            7'd42: cnn_bias = 32'sd469;
+            7'd43: cnn_bias = 32'sd175;
+            7'd44: cnn_bias = 32'sd1507;
+            7'd45: cnn_bias = 32'sd56;
+            7'd46: cnn_bias = 32'sd530;
+            7'd47: cnn_bias = 32'sd335;
+            7'd64: cnn_bias = 32'sd6;
+            7'd65: cnn_bias = 32'sd-1;
+            7'd66: cnn_bias = 32'sd71;
+            7'd67: cnn_bias = 32'sd-27;
+            7'd68: cnn_bias = 32'sd-51;
+            7'd69: cnn_bias = 32'sd-77;
+            7'd70: cnn_bias = 32'sd78;
+            7'd71: cnn_bias = 32'sd-38;
+            7'd72: cnn_bias = 32'sd73;
+            7'd73: cnn_bias = 32'sd90;
+            7'd74: cnn_bias = 32'sd75;
+            7'd75: cnn_bias = 32'sd-52;
+            7'd76: cnn_bias = 32'sd-30;
+            7'd77: cnn_bias = 32'sd-88;
+            7'd78: cnn_bias = 32'sd-5;
+            7'd79: cnn_bias = 32'sd27;
+            7'd96: cnn_bias = 32'sd947;
+            7'd97: cnn_bias = 32'sd19;
+            7'd98: cnn_bias = 32'sd-646;
+            7'd99: cnn_bias = 32'sd-931;
+            7'd100: cnn_bias = 32'sd-368;
+            7'd101: cnn_bias = 32'sd-57;
+            7'd102: cnn_bias = 32'sd-694;
+            7'd103: cnn_bias = 32'sd-458;
+            7'd104: cnn_bias = 32'sd170;
+            7'd105: cnn_bias = 32'sd-254;
+            default: cnn_bias = 32'sd0;
+        endcase
+    end
+endfunction

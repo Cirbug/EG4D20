@@ -1,0 +1,214 @@
+standard
+***Report Model: eg_image_sink Device: EG4D20EG176***
+
+IO Statistics
+#IO                        19   out of    130   14.62%
+  #input                    7
+  #output                  12
+  #inout                    0
+
+Utilization Statistics
+#lut                    13812   out of  19600   70.47%
+#reg                    11206   out of  19600   57.17%
+#le                     15530
+  #lut only              4324   out of  15530   27.84%
+  #reg only              1718   out of  15530   11.06%
+  #lut&reg               9488   out of  15530   61.09%
+#bram                      63   out of     64   98.44%
+  #bram9k                  63
+  #fifo9k                   0
+#bram32k                   16   out of     16  100.00%
+#dsp                       14   out of     29   48.28%
+#pad                       19   out of    130   14.62%
+  #ireg                     5
+  #oreg                     7
+  #treg                     0
+#pll                        3   out of      4   75.00%
+#gclk                       4   out of     16   25.00%
+
+
+Detailed IO Report
+
+        Name          Direction    Location    IOStandard    IOType    DriveStrength    PullType     PackReg    
+  I_a_rgmii_rx_ctl      INPUT        P72        LVCMOS33      PAD           N/A          PULLUP       DDRX1     
+   I_a_rgmii_rxc        INPUT        P63        LVCMOS33      PAD           N/A          PULLUP        NONE     
+  I_a_rgmii_rxd[3]      INPUT        P76        LVCMOS33      PAD           N/A          PULLUP       DDRX1     
+  I_a_rgmii_rxd[2]      INPUT        P75        LVCMOS33      PAD           N/A          PULLUP       DDRX1     
+  I_a_rgmii_rxd[1]      INPUT        P74        LVCMOS33      PAD           N/A          PULLUP       DDRX1     
+  I_a_rgmii_rxd[0]      INPUT        P73        LVCMOS33      PAD           N/A          PULLUP       DDRX1     
+     I_sys_clk          INPUT        P61        LVCMOS33      PAD           N/A          PULLUP        NONE     
+  O_a_rgmii_tx_ctl     OUTPUT        P78        LVCMOS33      PAD            8            NONE        DDRX1     
+   O_a_rgmii_txc       OUTPUT        P77        LVCMOS33      PAD            8            NONE        DDRX1     
+  O_a_rgmii_txd[3]     OUTPUT        P83        LVCMOS33      PAD            8            NONE        DDRX1     
+  O_a_rgmii_txd[2]     OUTPUT        P82        LVCMOS33      PAD            8            NONE        DDRX1     
+  O_a_rgmii_txd[1]     OUTPUT        P81        LVCMOS33      PAD            8            NONE        DDRX1     
+  O_a_rgmii_txd[0]     OUTPUT        P79        LVCMOS33      PAD            8            NONE        DDRX1     
+      O_led[3]         OUTPUT        P112       LVCMOS33      PAD            8            NONE         NONE     
+      O_led[2]         OUTPUT        P109       LVCMOS33      PAD            8            NONE         NONE     
+      O_led[1]         OUTPUT        P104       LVCMOS33      PAD            8            NONE         NONE     
+      O_led[0]         OUTPUT        P91        LVCMOS33      PAD            8            NONE         NONE     
+     O_phy_rst         OUTPUT        P62        LVCMOS33      PAD            8            NONE         OREG     
+     O_uart_tx         OUTPUT        P156       LVCMOS33      PAD            8            NONE         NONE     
+        udm            OUTPUT         S1        LVCMOS25      PAD            8            NONE         OREG     
+        ldm            OUTPUT        S20        LVCMOS25      PAD            8            NONE         OREG     
+        we_n           OUTPUT        S21        LVCMOS25      PAD            8            NONE         OREG     
+       cas_n           OUTPUT        S22        LVCMOS25      PAD            8            NONE         OREG     
+       ras_n           OUTPUT        S23        LVCMOS25      PAD            8            NONE         OREG     
+        cs_n           OUTPUT        S24        LVCMOS25      PAD            8            NONE         NONE     
+       ba[0]           OUTPUT        S25        LVCMOS25      PAD            8            NONE         OREG     
+       ba[1]           OUTPUT        S26        LVCMOS25      PAD            8            NONE         OREG     
+      addr[10]         OUTPUT        S27        LVCMOS25      PAD            8            NONE         OREG     
+      addr[0]          OUTPUT        S28        LVCMOS25      PAD            8            NONE         OREG     
+      addr[1]          OUTPUT        S29        LVCMOS25      PAD            8            NONE         OREG     
+      addr[2]          OUTPUT        S30        LVCMOS25      PAD            8            NONE         OREG     
+      addr[3]          OUTPUT        S31        LVCMOS25      PAD            8            NONE         OREG     
+      addr[4]          OUTPUT        S32        LVCMOS25      PAD            8            NONE         OREG     
+      addr[5]          OUTPUT        S33        LVCMOS25      PAD            8            NONE         OREG     
+      addr[6]          OUTPUT        S34        LVCMOS25      PAD            8            NONE         OREG     
+      addr[7]          OUTPUT        S35        LVCMOS25      PAD            8            NONE         OREG     
+      addr[8]          OUTPUT        S36        LVCMOS25      PAD            8            NONE         OREG     
+      addr[9]          OUTPUT        S37        LVCMOS25      PAD            8            NONE         OREG     
+      addr[11]         OUTPUT        S38        LVCMOS25      PAD            8            NONE         OREG     
+        cke            OUTPUT        S39        LVCMOS25      PAD            8            NONE         NONE     
+        clk            OUTPUT        S40        LVCMOS25      PAD            8            NONE        DDRX1     
+       clk_n           OUTPUT        S41        LVCMOS25      PAD            8            NONE        DDRX1     
+       dq[15]           INOUT        S10        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+       dq[0]            INOUT        S11        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+       dq[1]            INOUT        S12        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+       dq[2]            INOUT        S13        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+       dq[3]            INOUT        S14        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+       dq[4]            INOUT        S15        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+       dq[5]            INOUT        S16        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+       dq[6]            INOUT        S17        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+       dq[7]            INOUT        S18        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+        ldqs            INOUT        S19        LVCMOS25      PAD            8           PULLUP       DDRX1     
+        udqs            INOUT         S2        LVCMOS25      PAD            8           PULLUP       DDRX1     
+       dq[8]            INOUT         S3        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+       dq[9]            INOUT         S4        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+       dq[10]           INOUT         S5        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+       dq[11]           INOUT         S6        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+       dq[12]           INOUT         S7        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+       dq[13]           INOUT         S8        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+       dq[14]           INOUT         S9        LVCMOS25      PAD            8           PULLUP     IREG;DDRX1  
+
+Report Clock Domain Luts:
+
+----------------------------------------------------------------------------------------------------------------
+  Index   |  Name       |  Frequency   |  LUT As Logic   |  LUT As Shifter   |  LUT As Dram   |  BRAM   |  DSP
+----------------------------------------------------------------------------------------------------------------
+  #1      |  a_tx_clk   |  125MHz      |  4646           |  0                |  40            |  69     |  0
+  #2      |  ddr_clk0   |  150MHz      |  307            |  0                |  0             |  2      |  0
+  #3      |  ddr_clk90  |  150MHz      |  4              |  0                |  0             |  0      |  0
+  #4      |  gmii_rxc   |  125MHz      |  248            |  0                |  0             |  10     |  0
+  #5      |  proc_40m   |  40MHz       |  1268           |  0                |  0             |  56     |  14
+----------------------------------------------------------------------------------------------------------------
+
+Clock Resource Statistics
+Index     ClockNet                           Type               DriverType         Driver                                   Fanout
+#1        u_eth_pll/clk0_buf                 Global             pll                u_eth_pll/pll_inst.clkc0                 4954
+#2        u_receiver/u_analyzer/proc_clk     Global             pll                u_eth_pll/pll_inst.clkc2                 643
+#3        u_ddr_pll/clk0_buf                 Global             pll                u_ddr_pll/pll_inst.clkc0                 571
+#4        u_rgmii_interface/PLL2/clk0_buf    Global             pll                u_rgmii_interface/PLL2/pll_inst.clkc0    318
+#5        u_ddr_controller/u2_wrrd/Clk90     Global             pll                u_ddr_pll/pll_inst.clkc1                 39
+#6        u_ddr_controller/u2_wrrd/DQS[0]    Global             io                 u_ddr_phy/ddr_syn_11.di                  30
+#7        u_ddr_controller/u2_wrrd/Clk180    Global             pll                u_ddr_pll/pll_inst.clkc2                 4
+#8        I_sys_clk_dup_1                    Global             io                 I_sys_clk_syn_2.di                       2
+#9        I_a_rgmii_rxc_dup_1                GeneralRouting     io                 I_a_rgmii_rxc_syn_2.di                   1
+
+Report Hierarchy Area:
++---------------------------------------------------------------------------------------------------------------------------------------------+
+|Instance                                |Module                                        |le      |lut     |ripple  |seq     |bram    |dsp     |
++---------------------------------------------------------------------------------------------------------------------------------------------+
+|top                                     |eg_image_sink                                 |15530   |12110   |1702    |11218   |79      |14      |
+|  u_ddr_controller                      |ddr1_as_ram                                   |639     |397     |9       |605     |0       |0       |
+|    u1_init_ref                         |ddr1_init_ref                                 |102     |73      |9       |76      |0       |0       |
+|    u2_wrrd                             |ddr1_wrrd                                     |537     |324     |0       |529     |0       |0       |
+|  u_ddr_frame_writer                    |ddr_frame_writer                              |524     |376     |87      |371     |2       |0       |
+|    u_ddr_write_fifo                    |udp_pkg_buf                                   |108     |83      |21      |83      |2       |0       |
+|      ram_inst                          |ram_infer_udp_pkg_buf                         |0       |0       |0       |0       |2       |0       |
+|      rd_to_wr_cross_inst               |fifo_cross_domain_addr_process_al_udp_pkg_buf |35      |35      |0       |35      |0       |0       |
+|      wr_to_rd_cross_inst               |fifo_cross_domain_addr_process_al_udp_pkg_buf |23      |23      |0       |23      |0       |0       |
+|  u_ddr_phy                             |DDR_SDRAM_0                                   |0       |0       |0       |0       |0       |0       |
+|  u_ddr_pll                             |ddr_pll                                       |0       |0       |0       |0       |0       |0       |
+|  u_eth_pll                             |eg_recognition_pll40                          |0       |0       |0       |0       |0       |0       |
+|  u_receiver                            |preview_receiver                              |5443    |3730    |1211    |2882    |56      |14      |
+|    u_analyzer                          |preview_analyzer                              |4242    |2889    |1099    |1876    |56      |14      |
+|      features                          |shape_component_features                      |1429    |789     |621     |306     |2       |11      |
+|      mask_store                        |packed_tag_ram640                             |416     |413     |0       |148     |46      |0       |
+|  u_rgmii_interface                     |rgmii_interface                               |19      |16      |0       |10      |0       |0       |
+|    PLL2                                |PLL2                                          |0       |0       |0       |0       |0       |0       |
+|  u_uart_diag                           |eg_uart_diag                                  |2614    |2596    |17      |2245    |0       |0       |
+|  u_uart_frame_dump                     |uart_frame_dump                               |455     |392     |24      |358     |0       |0       |
+|    u_uart_tx_byte                      |uart_tx_byte                                  |44      |39      |5       |32      |0       |0       |
+|  u_udp_stack                           |uiudp_stack                                   |3983    |3195    |303     |3000    |21      |0       |
+|    arp_layer_inst                      |uiarp_layer                                   |810     |626     |0       |795     |0       |0       |
+|      arp_rx                            |uiarp_rx                                      |336     |207     |0       |327     |0       |0       |
+|      arp_tx                            |uiarp_tx                                      |261     |234     |0       |261     |0       |0       |
+|      mac_cache                         |mac_cache                                     |130     |102     |0       |124     |0       |0       |
+|    ip_arp_rx_inst                      |uiip_arp_rx                                   |18      |18      |0       |16      |0       |0       |
+|    ip_arp_tx_inst                      |uiip_arp_tx                                   |232     |224     |8       |201     |0       |0       |
+|    ip_layer_inst                       |uiip_layer                                    |974     |780     |99      |622     |2       |0       |
+|      icmp_echo_data_fifo               |udp_pkg_buf                                   |139     |95      |19      |107     |2       |0       |
+|        ram_inst                        |ram_infer_udp_pkg_buf                         |0       |0       |0       |0       |2       |0       |
+|        rd_to_wr_cross_inst             |fifo_cross_domain_addr_process_al_udp_pkg_buf |40      |21      |0       |40      |0       |0       |
+|        wr_to_rd_cross_inst             |fifo_cross_domain_addr_process_al_udp_pkg_buf |41      |35      |0       |41      |0       |0       |
+|      ip_rx_inst                        |uiip_rx                                       |232     |146     |16      |204     |0       |0       |
+|        icmp_pkg_ctrl_inst              |uiicmp_pkg_ctrl                               |138     |88      |16      |110     |0       |0       |
+|      ip_tx_inst                        |uiip_tx                                       |603     |539     |64      |311     |0       |0       |
+|        icmp_pkg_tx_inst                |uiicmp_pkg_tx                                 |179     |166     |13      |129     |0       |0       |
+|        shift_ip                        |shift_ram_8bit                                |48      |48      |0       |18      |0       |0       |
+|    mac_layer_inst                      |uimac_layer                                   |1753    |1374    |173     |1223    |19      |0       |
+|      mac_rx_inst                       |uimac_rx                                      |692     |517     |66      |517     |6       |0       |
+|        crc32_check_inst                |crc32_check                                   |50      |50      |0       |31      |0       |0       |
+|        mac_rdata_len_fifo              |udp_pkg_buf                                   |107     |70      |21      |70      |2       |0       |
+|          ram_inst                      |ram_infer_udp_pkg_buf                         |0       |0       |0       |0       |2       |0       |
+|          rd_to_wr_cross_inst           |fifo_cross_domain_addr_process_al_udp_pkg_buf |30      |18      |0       |30      |0       |0       |
+|          wr_to_rd_cross_inst           |fifo_cross_domain_addr_process_al_udp_pkg_buf |26      |23      |0       |26      |0       |0       |
+|        mac_receive_fifo                |udp_pkg_buf                                   |158     |103     |23      |121     |4       |0       |
+|          ram_inst                      |ram_infer_udp_pkg_buf                         |0       |0       |0       |0       |4       |0       |
+|          rd_to_wr_cross_inst           |fifo_cross_domain_addr_process_al_udp_pkg_buf |52      |31      |0       |51      |0       |0       |
+|          wr_to_rd_cross_inst           |fifo_cross_domain_addr_process_al_udp_pkg_buf |35      |35      |0       |35      |0       |0       |
+|        mac_tx_frame_ctrl_inst          |uimac_tx_frame_ctrl                           |50      |50      |0       |44      |0       |0       |
+|      mac_tx_inst                       |uimac_tx                                      |946     |792     |86      |629     |9       |0       |
+|        crc32_gen_inst                  |crc32_gen                                     |63      |63      |0       |33      |0       |0       |
+|        mac_tx_frame_info_fifo          |udp_pkg_buf                                   |114     |66      |21      |68      |5       |0       |
+|          ram_inst                      |ram_infer_udp_pkg_buf                         |0       |0       |0       |0       |5       |0       |
+|          rd_to_wr_cross_inst           |fifo_cross_domain_addr_process_al_udp_pkg_buf |27      |12      |0       |27      |0       |0       |
+|          wr_to_rd_cross_inst           |fifo_cross_domain_addr_process_al_udp_pkg_buf |22      |14      |0       |22      |0       |0       |
+|        mac_tx_pause_ctrl_inst          |uimac_tx_pause_ctrl                           |126     |114     |12      |95      |0       |0       |
+|        max_send_fifo                   |udp_pkg_buf                                   |163     |99      |23      |124     |4       |0       |
+|          ram_inst                      |ram_infer_udp_pkg_buf                         |0       |0       |0       |0       |4       |0       |
+|          rd_to_wr_cross_inst           |fifo_cross_domain_addr_process_al_udp_pkg_buf |47      |31      |0       |47      |0       |0       |
+|          wr_to_rd_cross_inst           |fifo_cross_domain_addr_process_al_udp_pkg_buf |42      |39      |0       |42      |0       |0       |
+|        shift_mac                       |shift_ram_8bit                                |42      |42      |0       |18      |0       |0       |
+|      udp_pkg_buf_inst                  |udp_pkg_buf                                   |113     |63      |21      |75      |4       |0       |
+|        ram_inst                        |ram_infer_udp_pkg_buf                         |0       |0       |0       |0       |4       |0       |
+|        rd_to_wr_cross_inst             |fifo_cross_domain_addr_process_al_udp_pkg_buf |28      |15      |0       |28      |0       |0       |
+|        wr_to_rd_cross_inst             |fifo_cross_domain_addr_process_al_udp_pkg_buf |27      |15      |0       |27      |0       |0       |
+|    udp_layer_inst                      |uiudp_layer                                   |196     |173     |23      |143     |0       |0       |
+|      udp_rx_inst                       |uiudp_rx                                      |115     |97      |18      |85      |0       |0       |
+|      udp_tx_inst                       |uiudp_tx                                      |81      |76      |5       |58      |0       |0       |
+|        shift_udp                       |shift_ram_8bit                                |20      |20      |0       |16      |0       |0       |
+|  uiphyrst_inst                         |uiphyrst                                      |56      |28      |9       |40      |0       |0       |
+|  u_ddr_busy_timeouts_gray_to_bin       |gray_to_bin_pipeline                          |161     |147     |0       |159     |0       |0       |
+|  u_ddr_frames_done_gray_to_bin         |gray_to_bin_pipeline                          |156     |148     |0       |156     |0       |0       |
+|  u_ddr_readback_frames_gray_to_bin     |gray_to_bin_pipeline                          |160     |145     |0       |160     |0       |0       |
+|  u_ddr_readback_mismatches_gray_to_bin |gray_to_bin_pipeline                          |153     |142     |0       |153     |0       |0       |
+|  u_ddr_readback_timeouts_gray_to_bin   |gray_to_bin_pipeline                          |143     |134     |0       |143     |0       |0       |
+|  u_ddr_words_written_gray_to_bin       |gray_to_bin_pipeline                          |149     |133     |0       |149     |0       |0       |
++---------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+DataNet Average Fanout:
+
+   Index     Fanout     Nets   
+    #1          1       12812  
+    #2          2       3455   
+    #3          3        882   
+    #4          4        863   
+    #5        5-10       837   
+    #6        11-50      582   
+    #7       51-100      75    
+    #8       101-500     12    
+    #9        >500        1    
+  Average     2.70             

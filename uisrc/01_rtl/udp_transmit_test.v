@@ -4,6 +4,8 @@
 
 module udp_transmit_test(
 
+output wire [3:0] O_led,
+
 input  wire        I_sys_clk,			//系统时钟输入
 
 output wire        O_phy_rst,			//以太网芯片复位信号，低电平有效 
@@ -106,12 +108,88 @@ wire O_phyrst_done;
 wire clk_25,clk_125,clk_125_90;
 
 wire phy_rst;
+wire phy_link_status;
+wire reset = ~O_phyrst_done;
 
 assign O_phy_rst = phy_rst;
 
+localparam [23:0] LED_ACTIVITY_HOLD_CYCLES = 24'd12_500_000;
 
+reg link_status_meta, link_status_sync;
+reg rx_valid_meta, rx_valid_sync, rx_valid_sync_d;
+reg ip_error_meta, ip_error_sync;
+reg mac_error_meta, mac_error_sync;
+reg mac_frame_seen;
+reg [3:0] mac_error_wait;
+reg [23:0] rx_led_count, tx_led_count;
+reg rx_led_on, tx_led_on, error_led_on;
 
-wire         reset   =	~O_phyrst_done;
+assign O_led = {~link_status_sync, ~rx_led_on, ~tx_led_on, ~error_led_on};
+
+always @(posedge clk_125 or posedge reset) begin
+	if (reset) begin
+		link_status_meta <= 1'b0;
+		link_status_sync <= 1'b0;
+		rx_valid_meta <= 1'b0;
+		rx_valid_sync <= 1'b0;
+		rx_valid_sync_d <= 1'b0;
+		ip_error_meta <= 1'b0;
+		ip_error_sync <= 1'b0;
+		mac_error_meta <= 1'b0;
+		mac_error_sync <= 1'b0;
+		mac_frame_seen <= 1'b0;
+		mac_error_wait <= 4'd0;
+		rx_led_count <= 24'd0;
+		tx_led_count <= 24'd0;
+		rx_led_on <= 1'b0;
+		tx_led_on <= 1'b0;
+		error_led_on <= 1'b0;
+	end else begin
+		link_status_meta <= phy_link_status;
+		link_status_sync <= link_status_meta;
+		rx_valid_meta <= gmii_rvalid;
+		rx_valid_sync <= rx_valid_meta;
+		rx_valid_sync_d <= rx_valid_sync;
+		ip_error_meta <= ip_rx_error;
+		ip_error_sync <= ip_error_meta;
+		mac_error_meta <= mac_rx_error;
+		mac_error_sync <= mac_error_meta;
+
+		if (rx_valid_sync) begin
+			rx_led_count <= LED_ACTIVITY_HOLD_CYCLES;
+			rx_led_on <= 1'b1;
+		end else if (rx_led_count != 24'd0) begin
+			rx_led_count <= rx_led_count - 1'b1;
+			rx_led_on <= 1'b1;
+		end else begin
+			rx_led_on <= 1'b0;
+		end
+
+		if (gmii_tvalid) begin
+			tx_led_count <= LED_ACTIVITY_HOLD_CYCLES;
+			tx_led_on <= 1'b1;
+		end else if (tx_led_count != 24'd0) begin
+			tx_led_count <= tx_led_count - 1'b1;
+			tx_led_on <= 1'b1;
+		end else begin
+			tx_led_on <= 1'b0;
+		end
+
+		if (ip_error_sync)
+			error_led_on <= 1'b1;
+
+		if (rx_valid_sync && !rx_valid_sync_d)
+			mac_frame_seen <= 1'b1;
+
+		if (rx_valid_sync_d && !rx_valid_sync)
+			mac_error_wait <= 4'd8;
+		else if (mac_error_wait != 4'd0) begin
+			mac_error_wait <= mac_error_wait - 1'b1;
+			if (mac_error_wait == 4'd1 && mac_frame_seen && mac_error_sync)
+				error_led_on <= 1'b1;
+		end
+	end
+end
 
 
 
@@ -609,7 +687,7 @@ rgmii_interface rgmii_interface_inst(
 
 // 以下信号为RGMII状态信号
 
-.link_status	(					),
+.link_status	(phy_link_status),
 
 .clock_speed	(					),
 
