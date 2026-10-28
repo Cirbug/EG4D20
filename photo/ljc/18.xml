@@ -1,12 +1,12 @@
 <annotation>
-	<folder>huihua</folder>
-	<filename>1.png</filename>
-	<path>D:\2026fpga\EG4D20\photo\huihua\1.png</path>
+	<folder>ljc</folder>
+	<filename>18.png</filename>
+	<path>D:\2026fpga\EG4D20\photo\ljc\18.png</path>
 	<source>
 		<database>Unknown</database>
 	</source>
 	<size>
-		<width>328</width>
+		<width>320</width>
 		<height>180</height>
 		<depth>1</depth>
 	</size>
@@ -17,22 +17,34 @@
 		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>54</xmin>
-			<ymin>28</ymin>
-			<xmax>80</xmax>
-			<ymax>65</ymax>
+			<xmin>29</xmin>
+			<ymin>29</ymin>
+			<xmax>63</xmax>
+			<ymax>72</ymax>
 		</bndbox>
 	</object>
 	<object>
-		<name>1</name>
+		<name>0</name>
 		<pose>Unspecified</pose>
 		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>99</xmin>
-			<ymin>31</ymin>
-			<xmax>117</xmax>
-			<ymax>67</ymax>
+			<xmin>95</xmin>
+			<ymin>30</ymin>
+			<xmax>134</xmax>
+			<ymax>78</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>5</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>191</xmin>
+			<ymin>38</ymin>
+			<xmax>240</xmax>
+			<ymax>90</ymax>
 		</bndbox>
 	</object>
 	<object>
@@ -41,10 +53,22 @@
 		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>139</xmin>
-			<ymin>32</ymin>
-			<xmax>177</xmax>
-			<ymax>64</ymax>
+			<xmin>259</xmin>
+			<ymin>73</ymin>
+			<xmax>301</xmax>
+			<ymax>130</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>6</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>78</xmin>
+			<ymin>112</ymin>
+			<xmax>111</xmax>
+			<ymax>155</ymax>
 		</bndbox>
 	</object>
 	<object>
@@ -53,22 +77,10 @@
 		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>92</xmin>
-			<ymin>91</ymin>
-			<xmax>125</xmax>
-			<ymax>132</ymax>
-		</bndbox>
-	</object>
-	<object>
-		<name>4</name>
-		<pose>Unspecified</pose>
-		<truncated>0</truncated>
-		<difficult>0</difficult>
-		<bndbox>
-			<xmin>162</xmin>
-			<ymin>93</ymin>
-			<xmax>190</xmax>
-			<ymax>136</ymax>
+			<xmin>164</xmin>
+			<ymin>113</ymin>
+			<xmax>210</xmax>
+			<ymax>169</ymax>
 		</bndbox>
 	</object>
 </annotation>
